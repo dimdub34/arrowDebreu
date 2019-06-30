@@ -1,7 +1,7 @@
 # built-in
 from server.servbase import Base
 from sqlalchemy.orm import relationship
-from sqlalchemy import Column, Integer, Float, String, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, Float, String, ForeignKey, DateTime, Boolean
 import logging
 from PyQt4.QtCore import QTimer
 from twisted.internet import defer
@@ -23,6 +23,7 @@ class ADGroup(Group, Base):
     uid = Column(String)
     session_id = Column(Integer)
     AD_sequence = Column(Integer)
+    AD_trial = Column(Boolean)
     AD_treatment = Column(Integer)
     AD_periods = relationship("ADGroupPeriods")
 
@@ -30,6 +31,7 @@ class ADGroup(Group, Base):
         Group.__init__(self, le2msrv, group_id, players)
         self.AD_sequence = num_sequence
         self.AD_treatment = pms.TREATMENT
+        self.AD_trial = pms.PARTIE_ESSAI
         self.current_period = None
 
     def new_period(self, period):

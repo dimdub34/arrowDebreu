@@ -85,6 +85,7 @@ class RemoteAD(IRemote):
         logger.info("{}: initial income: {}, {}".format(self.le2mclt.uid,
                                                         self.income_pile,
                                                         self.income_face))
+        return self.income
 
     def remote_newperiod(self, period):
         """

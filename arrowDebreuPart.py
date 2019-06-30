@@ -26,6 +26,7 @@ class PartieAD(Partie, pb.Referenceable):
     AD_group = Column(String)
     AD_endowment_pile = Column(Float)
     AD_endowment_face = Column(Float)
+    AD_initial_income = Column(Float)
     AD_aversion = Column(Float)
     AD_gain_ecus = Column(Float)
     AD_gain_euros = Column(Float)
@@ -47,10 +48,10 @@ class PartieAD(Partie, pb.Referenceable):
             self.joueur.group.get_place_of_player(self)]
         self.AD_aversion = pms.AVERSION[
             self.joueur.group.get_place_of_player(self)]
-
-        yield (self.remote.callRemote("configure", get_module_attributes(pms),
-                                      self, (self.AD_endowment_pile,
-                                             self.AD_endowment_face)))
+        self.AD_income = yield (
+            self.remote.callRemote("configure", get_module_attributes(pms),
+                                   self, (self.AD_endowment_pile,
+                                          self.AD_endowment_face)))
         self.joueur.info(u"Ok")
 
     @defer.inlineCallbacks
