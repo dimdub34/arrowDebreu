@@ -155,36 +155,48 @@ class GuiDecision(QtGui.QDialog, AD_Decision.Ui_Form):
         logger.debug(self.sender().objectName())
 
         if list_source == self.listWidget_pile_offre_achat:
-            self.current_offer = self.remote.offers_pile_achat[
-                list_source.currentRow()]
-            self.pushButton_pile_offre_achat_accepter.setToolTip(
-                "Revenu: {}".format(
-                    self.remote.get_simulated_income(self.current_offer,
-                                                     "accept")[2]))
+            try:
+                self.current_offer = self.remote.offers_pile_achat[
+                    list_source.currentRow()]
+                self.pushButton_pile_offre_achat_accepter.setToolTip(
+                    "Revenu: {}".format(
+                        self.remote.get_simulated_income(self.current_offer,
+                                                         "accept")[2]))
+            except IndexError:
+                pass
 
         elif list_source == self.listWidget_pile_offre_vente:
-            self.current_offer = self.remote.offers_pile_vente[
-                list_source.currentRow()]
-            self.pushButton_pile_offre_vente_accepter.setToolTip(
-                "Revenu: {}".format(
-                    self.remote.get_simulated_income(self.current_offer,
-                                                     "accept")[2]))
+            try:
+                self.current_offer = self.remote.offers_pile_vente[
+                    list_source.currentRow()]
+                self.pushButton_pile_offre_vente_accepter.setToolTip(
+                    "Revenu: {}".format(
+                        self.remote.get_simulated_income(self.current_offer,
+                                                         "accept")[2]))
+            except IndexError:
+                pass
 
         elif list_source == self.listWidget_face_offre_achat:
-            self.current_offer = self.remote.offers_face_achat[
-                list_source.currentRow()]
-            self.pushButton_face_offre_achat_accepter.setToolTip(
-                "Revenu: {}".format(
-                    self.remote.get_simulated_income(self.current_offer,
-                                                     "accept")[2]))
+            try:
+                self.current_offer = self.remote.offers_face_achat[
+                    list_source.currentRow()]
+                self.pushButton_face_offre_achat_accepter.setToolTip(
+                    "Revenu: {}".format(
+                        self.remote.get_simulated_income(self.current_offer,
+                                                         "accept")[2]))
+            except IndexError:
+                pass
 
         elif list_source == self.listWidget_face_offre_vente:
-            self.current_offer = self.remote.offers_face_vente[
-                list_source.currentRow()]
-            self.pushButton_face_offre_vente_accepter.setToolTip(
-                "Revenu: {}".format(
-                    self.remote.get_simulated_income(self.current_offer,
-                                                     "accept")[2]))
+            try:
+                self.current_offer = self.remote.offers_face_vente[
+                    list_source.currentRow()]
+                self.pushButton_face_offre_vente_accepter.setToolTip(
+                    "Revenu: {}".format(
+                        self.remote.get_simulated_income(self.current_offer,
+                                                         "accept")[2]))
+            except IndexError:
+                pass
 
         logger.debug("Current offer: {}".format(self.current_offer))
 

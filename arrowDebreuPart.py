@@ -239,7 +239,6 @@ class RepetitionsAD(Base):
 
     AD_period = Column(Integer)
     AD_period_start_time = Column(DateTime)
-    AD_group = Column(Integer)
     AD_decisiontime = Column(Integer)
     AD_nb_buy_pile = Column(Integer, default=0)
     AD_nb_sell_pile = Column(Integer, default=0)
