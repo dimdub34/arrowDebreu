@@ -118,7 +118,7 @@ class RemoteAD(IRemote):
         else:
             defered = defer.Deferred()
             self.ecran_decision = GuiDecision(self, defered)
-            self.ecran_decision.show()
+            self.ecran_decision.showFullScreen()
             return defered
 
     def remote_display_summary(self, period_content, group_transactions):
@@ -143,7 +143,7 @@ class RemoteAD(IRemote):
                                         period_content["AD_income_start_face"]))
             ecran_recap = GuiRecapitulatif(self, defered, txt_summary,
                                            group_transactions)
-            ecran_recap.show()
+            ecran_recap.showFullScreen()
             return defered
 
     def remote_add_offer(self, offer):
