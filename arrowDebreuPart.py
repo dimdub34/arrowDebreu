@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+# built-in
 import logging
 from datetime import datetime
 from twisted.spread import pb  # because some functions can be called remotely
@@ -7,9 +8,14 @@ from twisted.internet import defer
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, Float, String, ForeignKey, DateTime, \
     Boolean
+import random
+
+# le2m
 from server.servbase import Base
 from server.servparties import Partie
 from util.utiltools import get_module_attributes
+
+# arrowDebreu
 import arrowDebreuParams as pms
 
 logger = logging.getLogger("le2m.part")
@@ -157,11 +163,12 @@ class PartieAD(Partie, pb.Referenceable):
         """
         logger.debug(u"{} Part Payoff".format(self.joueur))
 
-        self.AD_gain_ecus = self.currentperiod.AD_cumulativepayoff
+        period_tiree = random.randint(1, pms.NOMBRE_PERIODES)
+        self.AD_gain_ecus = self.periods[period_tiree].AD_periodpayoff
         self.AD_gain_euros = float(self.AD_gain_ecus) * float(
             pms.TAUX_CONVERSION)
         yield (self.remote.callRemote(
-            "set_payoffs", self.AD_gain_euros, self.AD_gain_ecus))
+            "set_payoffs", self.AD_gain_euros, period_tiree))
 
         logger.info(u'{} Payoff ecus {} Payoff euros {:.2f}'.format(
             self.joueur, self.AD_gain_ecus, self.AD_gain_euros))

@@ -53,7 +53,6 @@ class RemoteAD(IRemote):
             "AD_income_end_pile",
             "AD_income_end_face",
             "AD_periodpayoff",
-            "AD_cumulativepayoff"
         ]
         self.histo.append(
             [u"Période",
@@ -61,7 +60,7 @@ class RemoteAD(IRemote):
              u"somme\nventes\npile",
              u"nb achats\nface", u"nb ventes\nface", u"somme\nachats\nface",
              u"somme\nventes\nface",
-             u"revenu\npile", u"revenu\nface", u"revenu", u"revenu\ncumulé"
+             u"revenu\npile", u"revenu\nface", u"revenu"
              ]
         )
 
@@ -386,3 +385,8 @@ class RemoteAD(IRemote):
 
         inc_simul = self.get_current_income(inc_pile, inc_face)
         return inc_pile, inc_face, inc_simul
+
+    def remote_set_payoffs(self, in_euros, period_tiree):
+        self._payoff_text = u"C'est la période {} qui a été tirée au sort pour " \
+                            u"votre rémunération. A cette période vous avez " \
+                            u"gagné {} euros.".format(period_tiree, in_euros)

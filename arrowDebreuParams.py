@@ -31,7 +31,7 @@ AVERSION = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
 
 
 GROUPES_CHAQUE_PERIODE = False
-MONNAIE = u"ecu"
+MONNAIE = u"euro"
 PARTIE_ESSAI = False
 
 
