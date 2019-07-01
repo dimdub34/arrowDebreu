@@ -55,15 +55,14 @@ class RemoteAD(IRemote):
             "AD_income_end_face",
             "AD_periodpayoff",
         ]
-        self.histo.append(
-            [u"Période",
+        self.histo = [
+            u"Période",
              u"nb achats\npile", u"nb ventes\npile", u"somme\nachats\npile",
              u"somme\nventes\npile",
              u"nb achats\nface", u"nb ventes\nface", u"somme\nachats\nface",
              u"somme\nventes\nface",
              u"revenu\npile", u"revenu\nface", u"revenu"
              ]
-        )
 
     def remote_configure(self, params, player_on_srv, initial_incomes,
                          aversion):
