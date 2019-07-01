@@ -57,7 +57,8 @@ class PartieAD(Partie, pb.Referenceable):
         self.AD_income = yield (
             self.remote.callRemote("configure", get_module_attributes(pms),
                                    self, (self.AD_endowment_pile,
-                                          self.AD_endowment_face)))
+                                          self.AD_endowment_face),
+                                          self.AD_aversion))
         self.joueur.info(u"Ok")
 
     @defer.inlineCallbacks

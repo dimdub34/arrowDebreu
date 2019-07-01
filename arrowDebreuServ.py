@@ -101,42 +101,54 @@ class Serveur(object):
 
         logger.debug("Ok initialisation partie")
 
-        # form groups ----------------------------------------------------------
-        del self.groups[:]
-        try:
-            gps = utiltools.form_groups(
-                self.le2mserv.gestionnaire_joueurs.get_players(),
-                pms.TAILLE_GROUPES, self.le2mserv.nom_session)
-        except ValueError as e:
-            QMessageBox.critical(None, "Group error", e.message)
-            self.current_sequence -= 1
-            return
-        logger.debug("Groups: {}".format(gps))
-
-        self.le2mserv.gestionnaire_graphique.infoserv("Groups", bg="gray",
-                                                      fg="white")
-
-        for g, m in sorted(gps.items()):
-            logger.debug("Creation of group {}".format(g))
+        # ----------------------------------------------------------------------
+        # formation des groupes
+        # ----------------------------------------------------------------------
+        # les groupes ne sont pas reformés à chaque lancement de partie
+        if not self.groups:
             try:
-                group = ADGroup(self.le2mserv, g,
-                                [i.get_part("arrowDebreu") for i in m],
-                                self.current_sequence)
-                self.le2mserv.gestionnaire_base.ajouter(group)
-            except Exception as e:
-                logger.critical("Error creation group: {}".format(e.message))
+                gps = utiltools.form_groups(
+                    self.le2mserv.gestionnaire_joueurs.get_players(),
+                    pms.TAILLE_GROUPES, self.le2mserv.nom_session)
+            except ValueError as e:
+                QMessageBox.critical(None, "Group error", e.message)
+                self.current_sequence -= 1
                 return
-            logger.debug("Ok creation group")
-            self.groups.append(group)
-            self.le2mserv.gestionnaire_graphique.infoserv(
-                "__ {} __".format(group))
-            for j in m:
-                j.group = group
-                self.le2mserv.gestionnaire_graphique.infoserv("{}".format(j))
+            logger.debug("Groups: {}".format(gps))
+
+            for g, m in sorted(gps.items()):
+                logger.debug("Creation of group {}".format(g))
+                try:
+                    group = ADGroup(self.le2mserv, g,
+                                    [i.get_part("arrowDebreu") for i in m],
+                                    self.current_sequence)
+                    self.le2mserv.gestionnaire_base.ajouter(group)
+                except Exception as e:
+                    logger.critical(
+                        "Error creation group: {}".format(e.message))
+                    return
+                logger.debug("Ok creation group")
+                self.groups.append(group)
+                for j in m:
+                    j.group = group
+
+        # enregistrement dans champs de la partie
         for j in self.all:
             j.AD_group = j.joueur.group.uid
 
-        # set parameters on remotes --------------------------------------------
+        # Affichage composition
+        self.le2mserv.gestionnaire_graphique.infoserv("Groups", bg="gray",
+                                                      fg="white")
+        for g in self.groups:
+            self.le2mserv.gestionnaire_graphique.infoserv(
+                "__ {} __".format(g))
+            for j in g.get_players():
+                self.le2mserv.gestionnaire_graphique.infoserv(
+                    "{}".format(j.joueur))
+
+        # ----------------------------------------------------------------------
+        # envoie de la configurations aux clients
+        # ----------------------------------------------------------------------
         try:
             yield (self.le2mserv.gestionnaire_experience.run_step(
                 le2mtrans(u"Configure"), self.all, "configure"))

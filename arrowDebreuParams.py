@@ -11,15 +11,16 @@ from datetime import time
 
 
 # variables --------------------------------------------------------------------
-BASELINE = 0
-TREATMENTS_NAMES = {BASELINE: "Baseline"}
+CARA = 0
+CRRA = 1
+TREATMENTS_NAMES = {CARA: "CARA", CRRA: "CRRA"}
 BUY = BUYER = 0
 SELL = SELLER = 1
 PILE = 0
 FACE = 1
 
 # parameters -------------------------------------------------------------------
-TREATMENT = BASELINE
+TREATMENT = CARA
 TAUX_CONVERSION = 1
 NOMBRE_PERIODES = 1
 MARKET_TIME = time(0, 0, 30)  # hour, minute, second

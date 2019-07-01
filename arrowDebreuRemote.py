@@ -30,6 +30,7 @@ class RemoteAD(IRemote):
         self.income_pile = 0
         self.income_face = 0
         self.income = 0
+        self.aversion = 0
 
         # ces listes sont vidées au début de chaque période
         # chq liste contient les offres en cours (celles affichées dans les
@@ -64,7 +65,7 @@ class RemoteAD(IRemote):
              ]
         )
 
-    def remote_configure(self, params, player_on_srv, initial_incomes):
+    def remote_configure(self, params, player_on_srv, initial_incomes, aversion):
         """
         Set the same parameters as in the server side
         :param params: the parameters
@@ -81,6 +82,7 @@ class RemoteAD(IRemote):
         self.income_pile, self.income_face = initial_incomes
         self.income = self.get_current_income(self.income_pile,
                                               self.income_face)
+        self.aversion = aversion
         logger.info("{}: initial income: {}, {}".format(self.le2mclt.uid,
                                                         self.income_pile,
                                                         self.income_face))
