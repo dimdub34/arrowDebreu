@@ -54,7 +54,7 @@ class GuiDecision(QtGui.QDialog, AD_Decision.Ui_Form):
     def _initUi(self):
         self.setWindowTitle(u"Marché")
         self.label_period.setText(
-            u"Période {}".format(self.remote.current_period))
+            u"Période {}".format(self.remote.currentperiod))
         self.label_timer.setText(get_formated_time(pms.MARKET_TIME))
         self.textEdit_explication.setText(
             u"Votre revenu si pile est {} euros et votre revenu si face est {} "
@@ -446,7 +446,7 @@ class GuiRecapitulatif(QtGui.QDialog):
                                               size=SIZE_HISTO)
 
         label_period = QtGui.QLabel(
-            u"Période {}".format(self._remote.current_period))
+            u"Période {}".format(self._remote.currentperiod))
         button_history = QtGui.QPushButton("Historique")
         button_history.clicked.connect(self.ecran_historique.show)
 

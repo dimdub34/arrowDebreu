@@ -132,6 +132,24 @@ class Serveur(object):
                 for j in m:
                     j.group = group
 
+        else:
+            groups_new = []
+            for g in self.groups:
+                group_players = [k.joueur for k in g.get_players()]
+                g_comp = []
+                for j in group_players:
+                    for k in self.all:
+                        if k.joueur == j:
+                            g_comp.append(k)
+                            break
+                group = ADGroup(self.le2mserv, g.uid, g_comp,
+                                self.current_sequence)
+                self.le2mserv.gestionnaire_base.ajouter(group)
+                groups_new.append(group)
+                for j in g.get_players():
+                    j.joueur.group = group
+            self.groups = groups_new
+
         # enregistrement dans champs de la partie
         for j in self.all:
             j.AD_group = j.joueur.group.uid

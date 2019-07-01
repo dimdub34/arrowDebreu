@@ -27,9 +27,9 @@ class ADGroup(Group, Base):
     AD_treatment = Column(Integer)
     AD_periods = relationship("ADGroupPeriods")
 
-    def __init__(self, le2msrv, group_id, players, num_sequence):
+    def __init__(self, le2msrv, group_id, players, sequence):
         Group.__init__(self, le2msrv, group_id, players)
-        self.AD_sequence = num_sequence
+        self.AD_sequence = sequence
         self.AD_treatment = pms.TREATMENT
         self.AD_trial = pms.PARTIE_ESSAI
         self.current_period = None
