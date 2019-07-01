@@ -135,7 +135,7 @@ class RemoteAD(IRemote):
             defered = defer.Deferred()
             txt_summary = u"Vous aviez un revenu initial de {} euros si pile " \
                           u"et de {} euros si face. Votre paramètre alpha est " \
-                          u"de {}. La valeur initial de votre " \
+                          u"de {}. La valeur initiale de votre " \
                           u"portefeuille était de {} euros.".format(
                 period_content["AD_income_start_pile"],
                 period_content["AD_income_start_face"],
