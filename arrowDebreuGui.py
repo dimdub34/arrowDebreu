@@ -60,18 +60,20 @@ class GuiDecision(QtGui.QDialog, AD_Decision.Ui_Form):
         self.pushButton_history.clicked.connect(self.ecran_historique.show)
         self.label_timer.setText(get_formated_time(pms.MARKET_TIME))
         self.textEdit_explication.setText(
-            u"Votre revenu si pile est {} euros et votre revenu si face est {} "
-            u"euros. Votre paramètre alpha est {}. La valeur de votre "
-            u"portefeuille est {} euros.".format(
+            u"Votre revenu initial si pile est {} euros et votre revenu initial "
+            u"si face est {} euros. Votre paramètre alpha est {}. La valeur "
+            u"initiale de votre portefeuille est {} euros.".format(
                 self.remote.income_pile, self.remote.income_face,
                 self.remote.aversion, self.remote.income
             )
         )
+        self.label_txt_revenu_pile.setText("Revenu actuel si pile")
         self.label_revenu_pile.setText(
             "{:.2f}".format(self.remote.income_pile))
+        self.label_txt_revenu_face.setText("Revenu actuel si face")
         self.label_revenu_face.setText(
             "{:.2f}".format(self.remote.income_face))
-        self.label_txt_portefeuille.setText("Valeur de votre portefeuille")
+        self.label_txt_portefeuille.setText("Valeur actuelle de votre portefeuille")
         self.label_portefeuille.setText("{:.2f}".format(self.remote.income))
 
         # ----------------------------------------------------------------------
@@ -170,7 +172,7 @@ class GuiDecision(QtGui.QDialog, AD_Decision.Ui_Form):
                 self.current_offer = self.remote.offers_pile_achat[
                     list_source.currentRow()]
                 self.pushButton_pile_offre_achat_accepter.setToolTip(
-                    "Revenu: {}".format(
+                    "Valeur du portefeuille: {}".format(
                         self.remote.get_simulated_income(self.current_offer,
                                                          "accept")[2]))
             except IndexError:
@@ -181,7 +183,7 @@ class GuiDecision(QtGui.QDialog, AD_Decision.Ui_Form):
                 self.current_offer = self.remote.offers_pile_vente[
                     list_source.currentRow()]
                 self.pushButton_pile_offre_vente_accepter.setToolTip(
-                    "Revenu: {}".format(
+                    "Valeur du portefeuille: {}".format(
                         self.remote.get_simulated_income(self.current_offer,
                                                          "accept")[2]))
             except IndexError:
@@ -192,7 +194,7 @@ class GuiDecision(QtGui.QDialog, AD_Decision.Ui_Form):
                 self.current_offer = self.remote.offers_face_achat[
                     list_source.currentRow()]
                 self.pushButton_face_offre_achat_accepter.setToolTip(
-                    "Revenu: {}".format(
+                    "Valeur du portefeuille: {}".format(
                         self.remote.get_simulated_income(self.current_offer,
                                                          "accept")[2]))
             except IndexError:
@@ -203,7 +205,7 @@ class GuiDecision(QtGui.QDialog, AD_Decision.Ui_Form):
                 self.current_offer = self.remote.offers_face_vente[
                     list_source.currentRow()]
                 self.pushButton_face_offre_vente_accepter.setToolTip(
-                    "Revenu: {}".format(
+                    "Valeur du portefeuille: {}".format(
                         self.remote.get_simulated_income(self.current_offer,
                                                          "accept")[2]))
             except IndexError:
@@ -307,28 +309,28 @@ class GuiDecision(QtGui.QDialog, AD_Decision.Ui_Form):
             offer = {"etat_monde": pms.PILE, "achat_vente": pms.BUY,
                      "prix": value}
             self.pushButton_pile_offre_achat_envoyer.setToolTip(
-                "Revenu: {}".format(
+                "Valeur du portefeuille: {}".format(
                     self.remote.get_simulated_income(offer, "send")[2]))
 
         elif source == self.doubleSpinBox_pile_offre_vente:
             offer = {"etat_monde": pms.PILE, "achat_vente": pms.SELL,
                      "prix": value}
             self.pushButton_pile_offre_vente_envoyer.setToolTip(
-                "Revenu: {}".format(
+                "Valeur du portefeuille: {}".format(
                     self.remote.get_simulated_income(offer, "send")[2]))
 
         elif source == self.doubleSpinBox_face_offre_achat:
             offer = {"etat_monde": pms.FACE, "achat_vente": pms.BUY,
                      "prix": value}
             self.pushButton_face_offre_achat_envoyer.setToolTip(
-                "Revenu: {}".format(
+                "Valeur du portefeuille: {}".format(
                     self.remote.get_simulated_income(offer, "send")[2]))
 
         elif source == self.doubleSpinBox_face_offre_vente:
             offer = {"etat_monde": pms.FACE, "achat_vente": pms.SELL,
                      "prix": value}
             self.pushButton_face_offre_vente_envoyer.setToolTip(
-                "Revenu: {}".format(
+                "Valeur du portefeuille: {}".format(
                     self.remote.get_simulated_income(offer, "send")[2]))
 
     @QtCore.pyqtSlot()

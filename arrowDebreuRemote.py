@@ -134,10 +134,12 @@ class RemoteAD(IRemote):
         else:
             defered = defer.Deferred()
             txt_summary = u"Vous aviez un revenu initial de {} euros si pile " \
-                          u"et {} euros si face, c'est à dire une valeur de " \
-                          u"portefeuille de {} euros.".format(
+                          u"et de {} euros si face. Votre paramètre alpha est " \
+                          u"de {}. La valeur initial de votre " \
+                          u"portefeuille était de {} euros.".format(
                 period_content["AD_income_start_pile"],
                 period_content["AD_income_start_face"],
+                self.aversion,
                 self.get_current_income(period_content["AD_income_start_pile"],
                                         period_content["AD_income_start_face"]))
             ecran_recap = GuiRecapitulatif(self, defered, txt_summary,
