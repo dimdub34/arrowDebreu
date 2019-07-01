@@ -81,9 +81,9 @@ class RemoteAD(IRemote):
         self.player_on_srv = player_on_srv
         self.init_vars()
         self.income_pile, self.income_face = initial_incomes
+        self.aversion = aversion
         self.income = self.get_current_income(self.income_pile,
                                               self.income_face)
-        self.aversion = aversion
         logger.info("{}: initial income: {}, {}".format(self.le2mclt.uid,
                                                         self.income_pile,
                                                         self.income_face))
@@ -342,9 +342,10 @@ class RemoteAD(IRemote):
         esperance = np.mean([income_pile, income_face])
         variance = np.var([income_pile, income_face])
         try:
-            return float("{:.2f}".format(esperance - 1 / variance))
+            income = esperance - self.aversion * (variance / esperance)
+            return float("{:.2f}".format(income))
         except ZeroDivisionError:
-            return float("{:.2f}".format(esperance))
+            return float("{:.2f}".format(0))
 
     def get_simulated_income(self, offer, accept_or_send):
         """

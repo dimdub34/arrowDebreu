@@ -28,7 +28,7 @@ SUMMARY_TIME = time(0, 1, 30)  # timer on the summary screen
 TAILLE_GROUPES = 2
 # la place du joueur dans le groupe détermine sa dotation et son aversion
 ENDOWMENT = [(5, 25), (5, 25), (5, 25), (25, 5), (25, 5), (25, 5)]
-AVERSION = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
+AVERSION = [1, 1, 1, 1, 1, 1]
 
 
 GROUPES_CHAQUE_PERIODE = False
