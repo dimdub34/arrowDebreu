@@ -55,6 +55,9 @@ class GuiDecision(QtGui.QDialog, AD_Decision.Ui_Form):
         self.setWindowTitle(u"Marché")
         self.label_period.setText(
             u"Période {}".format(self.remote.currentperiod))
+        self.ecran_historique = GuiHistorique(self, self._remote.histo,
+                                              size=SIZE_HISTO)
+        self.pushButton_history.clicked.connect(self.ecran_historique.show)
         self.label_timer.setText(get_formated_time(pms.MARKET_TIME))
         self.textEdit_explication.setText(
             u"Votre revenu si pile est {} euros et votre revenu si face est {} "
