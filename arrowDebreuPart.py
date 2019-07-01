@@ -170,8 +170,8 @@ class PartieAD(Partie, pb.Referenceable):
         yield (self.remote.callRemote(
             "set_payoffs", self.AD_gain_euros, period_tiree))
 
-        logger.info(u'{} Payoff ecus {} Payoff euros {:.2f}'.format(
-            self.joueur, self.AD_gain_ecus, self.AD_gain_euros))
+        logger.info(u'{} Période tirée {} Payoff euros {:.2f}'.format(
+            self.joueur, period_tiree, self.AD_gain_euros))
 
     @defer.inlineCallbacks
     def remote_add_offer(self, offer):
