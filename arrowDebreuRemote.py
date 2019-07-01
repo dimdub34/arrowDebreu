@@ -65,7 +65,8 @@ class RemoteAD(IRemote):
              ]
         )
 
-    def remote_configure(self, params, player_on_srv, initial_incomes, aversion):
+    def remote_configure(self, params, player_on_srv, initial_incomes,
+                         aversion):
         """
         Set the same parameters as in the server side
         :param params: the parameters
@@ -96,7 +97,7 @@ class RemoteAD(IRemote):
         """
         logger.info(u"{} Period {}".format(self._le2mclt.uid, period))
 
-        self.current_period = period
+        self.currentperiod = period
 
         # on vide les listes
         self.offers_pile_achat[:] = []
@@ -133,10 +134,13 @@ class RemoteAD(IRemote):
             return 1
         else:
             defered = defer.Deferred()
-            txt_summary = u"Vous aviez un revenu initial de {} si pile et " \
-                          u"{} si face".format(
+            txt_summary = u"Vous aviez un revenu initial de {} euros si pile " \
+                          u"et {} euros si face, c'est à dire une valeur de " \
+                          u"portefeuille de {} euros.".format(
                 period_content["AD_income_start_pile"],
-                period_content["AD_income_start_face"])
+                period_content["AD_income_start_face"],
+                self.get_current_income(period_content["AD_income_start_pile"],
+                                        period_content["AD_income_start_face"]))
             ecran_recap = GuiRecapitulatif(self, defered, txt_summary,
                                            group_transactions)
             ecran_recap.show()

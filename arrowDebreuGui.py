@@ -10,7 +10,6 @@ from PyQt4 import QtGui, QtCore
 import random
 from twisted.internet import defer
 from datetime import time
-import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
@@ -18,7 +17,7 @@ from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 # le2m
 from util.utiltools import get_formated_time
 from client.cltgui.cltguidialogs import GuiHistorique
-from client.cltgui.cltguiwidgets import WExplication, WTableview
+from client.cltgui.cltguiwidgets import WTableview
 from client.cltgui.cltguitablemodels import TableModelHistorique
 
 # Arrow-debreu
@@ -57,10 +56,19 @@ class GuiDecision(QtGui.QDialog, AD_Decision.Ui_Form):
         self.label_period.setText(
             u"Période {}".format(self.remote.current_period))
         self.label_timer.setText(get_formated_time(pms.MARKET_TIME))
+        self.textEdit_explication.setText(
+            u"Votre revenu si pile est {} euros et votre revenu si face est {} "
+            u"euros. Votre paramètre alpha est {}. La valeur de votre "
+            u"portefeuille est {} euros.".format(
+                self.remote.income_pile, self.remote.income_face,
+                self.remote.aversion, self.remote.income
+            )
+        )
         self.label_revenu_pile.setText(
             "{:.2f}".format(self.remote.income_pile))
         self.label_revenu_face.setText(
             "{:.2f}".format(self.remote.income_face))
+        self.label_txt_portefeuille.setText("Valeur de votre portefeuille")
         self.label_portefeuille.setText("{:.2f}".format(self.remote.income))
 
         # ----------------------------------------------------------------------
@@ -336,7 +344,8 @@ class GuiDecision(QtGui.QDialog, AD_Decision.Ui_Form):
                             item = self.listWidget_pile_offre_achat.item(
                                 selected)
                             item.setSelected(True)
-                            self.listWidget_pile_offre_achat.itemClicked.emit(item)
+                            self.listWidget_pile_offre_achat.itemClicked.emit(
+                                item)
                             self.pushButton_pile_offre_achat_accepter.click()
                         except AttributeError:
                             pass
@@ -355,7 +364,8 @@ class GuiDecision(QtGui.QDialog, AD_Decision.Ui_Form):
                             item = self.listWidget_pile_offre_vente.item(
                                 selected)
                             item.setSelected(True)
-                            self.listWidget_pile_offre_achat.itemClicked.emit(item)
+                            self.listWidget_pile_offre_achat.itemClicked.emit(
+                                item)
                             self.pushButton_pile_offre_vente_accepter.click()
                         except AttributeError:
                             pass
@@ -375,7 +385,8 @@ class GuiDecision(QtGui.QDialog, AD_Decision.Ui_Form):
                             item = self.listWidget_face_offre_achat.item(
                                 selected)
                             item.setSelected(True)
-                            self.listWidget_face_offre_achat.itemClicked.emit(item)
+                            self.listWidget_face_offre_achat.itemClicked.emit(
+                                item)
                             self.pushButton_face_offre_achat_accepter.click()
                         except AttributeError:
                             pass
@@ -394,7 +405,8 @@ class GuiDecision(QtGui.QDialog, AD_Decision.Ui_Form):
                             item = self.listWidget_face_offre_vente.item(
                                 selected)
                             item.setSelected(True)
-                            self.listWidget_face_offre_vente.itemClicked.emit(item)
+                            self.listWidget_face_offre_vente.itemClicked.emit(
+                                item)
                             self.pushButton_face_offre_vente_accepter.click()
                         except AttributeError:
                             pass
