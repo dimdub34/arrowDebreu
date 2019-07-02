@@ -58,12 +58,12 @@ class RemoteAD(IRemote):
         self.histo = []
         self.histo.append([
             u"Période",
-             u"nb achats\npile", u"nb ventes\npile", u"somme\nachats\npile",
-             u"somme\nventes\npile",
-             u"nb achats\nface", u"nb ventes\nface", u"somme\nachats\nface",
-             u"somme\nventes\nface",
-             u"revenu\npile", u"revenu\nface", u"revenu"
-             ]
+            u"nb achats\npile", u"nb ventes\npile", u"somme\nachats\npile",
+            u"somme\nventes\npile",
+            u"nb achats\nface", u"nb ventes\nface", u"somme\nachats\nface",
+            u"somme\nventes\nface",
+            u"revenu\npile", u"revenu\nface", u"revenu"
+        ]
         )
 
     def remote_configure(self, params, player_on_srv, initial_incomes,
@@ -287,6 +287,12 @@ class RemoteAD(IRemote):
                     "seller_id"] == self.le2mclt.uid:
                     self.ecran_decision.listWidget_pile_transactions.item(
                         i).setTextColor(QColor("blue"))
+                    if t["buyer_id"] == self.le2mclt.uid:
+                        self.ecran_decision.listWidget_pile_transactions.item(
+                            i).setText("{:.2f} (achat)".format(t["prix"]))
+                    else:
+                        self.ecran_decision.listWidget_pile_transactions.item(
+                            i).setText("{:.2f} (vente)".format(t["prix"]))
 
         else:
             if transaction["buyer_id"] == self.le2mclt.uid:
@@ -310,6 +316,12 @@ class RemoteAD(IRemote):
                     "seller_id"] == self.le2mclt.uid:
                     self.ecran_decision.listWidget_face_transactions.item(
                         i).setTextColor(QColor("blue"))
+                    if t["buyer_id"] == self.le2mclt.uid:
+                        self.ecran_decision.listWidget_face_transactions.item(
+                            i).setText("{:.2f} (achat)".format(t["prix"]))
+                    else:
+                        self.ecran_decision.listWidget_face_transactions.item(
+                            i).setText("{:.2f} (vente)".format(t["prix"]))
 
         # refresh the labels with the incomes
         self.ecran_decision.label_revenu_pile.setText(
