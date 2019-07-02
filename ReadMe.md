@@ -6,6 +6,14 @@ This is a real time market experiment where subjects can buy and sell two kind o
 # Treatments
 ## Baseline
 
+- Comment: symétrique dotation et homogène aversion
 - Code: 0
 - Endowment: [(10, 30), (10, 30), (10, 30), (30, 10), (30, 10), (30, 10)]
 - Aversion: [1, 1, 1, 1, 1, 1]
+
+## RiskLover
+
+- Comment: symétrique dotation et 2 risk-lovers, un avec chaque type de dotation
+- Code: 1
+- Endowment: [(10, 30), (10, 30), (10, 30), (30, 10), (30, 10), (30, 10)]
+- Aversion: [-1, 1, 1, -1, 1, 1]
