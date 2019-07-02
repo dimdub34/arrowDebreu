@@ -55,7 +55,7 @@ class GuiDecision(QtGui.QDialog, AD_Decision.Ui_Form):
         self.setWindowTitle(u"Marché")
         self.label_period.setText(
             u"Période {}".format(self.remote.currentperiod))
-        self.ecran_historique = GuiHistorique(self, self._remote.histo,
+        self.ecran_historique = GuiHistorique(self, self.remote.histo,
                                               size=SIZE_HISTO)
         self.pushButton_history.clicked.connect(self.ecran_historique.show)
         self.label_timer.setText(get_formated_time(pms.MARKET_TIME))
@@ -73,7 +73,8 @@ class GuiDecision(QtGui.QDialog, AD_Decision.Ui_Form):
         self.label_txt_revenu_face.setText("Revenu actuel si face")
         self.label_revenu_face.setText(
             "{:.2f}".format(self.remote.income_face))
-        self.label_txt_portefeuille.setText("Valeur actuelle de votre portefeuille")
+        self.label_txt_portefeuille.setText(
+            "Valeur actuelle de votre portefeuille")
         self.label_portefeuille.setText("{:.2f}".format(self.remote.income))
 
         # ----------------------------------------------------------------------
@@ -232,7 +233,10 @@ class GuiDecision(QtGui.QDialog, AD_Decision.Ui_Form):
     @defer.inlineCallbacks
     def send_offer(self, button_source):
         """
-        Envoie l'offre au serveur
+        1. Test si le sujet a le budget sinon ne fait rien
+        2. Regarde s'il y a une offre existante qui match. Si oui alors 
+        accepte l'offre existante
+        3. Si 1 et 2 sont passées alors envoie l'offre au serveur
         :return:
         """
         logger.debug("btn source: {}".format(button_source.objectName()))
@@ -242,6 +246,34 @@ class GuiDecision(QtGui.QDialog, AD_Decision.Ui_Form):
                 offer, "send")
             return inc_left >= 0 and inc_right >= 0 and inc_simul >= 0
 
+        def get_compatible_offer(offer):
+            if offer["etat_monde"] == pms.PILE:
+                if offer["achat_vente"] == pms.BUY:
+                    for o in self.remote.offers_pile_vente:
+                        if o["player_id"] != self.remote.le2mclt.uid and \
+                                o["prix"] == offer["prix"]:
+                            return o
+                    return None
+                else:
+                    for o in self.remote.offers_pile_achat:
+                        if o["player_id"] != self.remote.le2mclt.uid and \
+                                o["prix"] == offer["prix"]:
+                            return o
+                    return None
+            else:
+                if offer["achat_vente"] == pms.BUY:
+                    for o in self.remote.offers_face_vente:
+                        if o["player_id"] != self.remote.le2mclt.uid and \
+                                o["prix"] == offer["prix"]:
+                            return o
+                    return None
+                else:
+                    for o in self.remote.offers_face_achat:
+                        if o["player_id"] != self.remote.le2mclt.uid and \
+                                o["prix"] == offer["prix"]:
+                            return o
+                    return None
+
         if button_source == self.pushButton_pile_offre_achat_envoyer:
             offer = {
                 "etat_monde": pms.PILE,
@@ -250,7 +282,14 @@ class GuiDecision(QtGui.QDialog, AD_Decision.Ui_Form):
             }
             if test_incomes(offer):
                 self.doubleSpinBox_pile_offre_achat.setValue(0)
-                yield (self.remote.player_on_srv.callRemote("add_offer", offer))
+                compatible_offer = get_compatible_offer(offer)
+                logger.debug("offre compatible: {}".format(compatible_offer))
+                if compatible_offer is not None:
+                    yield (self.remote.player_on_srv.callRemote("accept_offer",
+                                                                compatible_offer))
+                else:
+                    yield (self.remote.player_on_srv.callRemote("add_offer",
+                                                                offer))
             else:
                 return
 
@@ -262,7 +301,13 @@ class GuiDecision(QtGui.QDialog, AD_Decision.Ui_Form):
             }
             if test_incomes(offer):
                 self.doubleSpinBox_pile_offre_vente.setValue(0)
-                yield (self.remote.player_on_srv.callRemote("add_offer", offer))
+                compatible_offer = get_compatible_offer(offer)
+                if compatible_offer is not None:
+                    yield (self.remote.player_on_srv.callRemote("accept_offer",
+                                                                compatible_offer))
+                else:
+                    yield (self.remote.player_on_srv.callRemote("add_offer",
+                                                                offer))
             else:
                 return
 
@@ -274,7 +319,13 @@ class GuiDecision(QtGui.QDialog, AD_Decision.Ui_Form):
             }
             if test_incomes(offer):
                 self.doubleSpinBox_face_offre_achat.setValue(0)
-                yield (self.remote.player_on_srv.callRemote("add_offer", offer))
+                compatible_offer = get_compatible_offer(offer)
+                if compatible_offer is not None:
+                    yield (self.remote.player_on_srv.callRemote("accept_offer",
+                                                                compatible_offer))
+                else:
+                    yield (self.remote.player_on_srv.callRemote("add_offer",
+                                                                offer))
             else:
                 return
 
@@ -286,7 +337,13 @@ class GuiDecision(QtGui.QDialog, AD_Decision.Ui_Form):
             }
             if test_incomes(offer):
                 self.doubleSpinBox_face_offre_vente.setValue(0)
-                yield (self.remote.player_on_srv.callRemote("add_offer", offer))
+                compatible_offer = get_compatible_offer(offer)
+                if compatible_offer is not None:
+                    yield (self.remote.player_on_srv.callRemote("accept_offer",
+                                                                compatible_offer))
+                else:
+                    yield (self.remote.player_on_srv.callRemote("add_offer",
+                                                                offer))
             else:
                 return
 
