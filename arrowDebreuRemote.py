@@ -62,7 +62,7 @@ class RemoteAD(IRemote):
             u"somme\nventes\nPile",
             u"nb achats\nFace", u"nb ventes\nFace", u"somme\nachats\nFace",
             u"somme\nventes\nFace",
-            u"revenu\nfinal\nFile", u"revenu\nfinal\face",
+            u"revenu\nfinal\nPile", u"revenu\nfinal\nface",
             u"Valeur\nfinale du\nportefeuille"
         ]
         )

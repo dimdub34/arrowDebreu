@@ -68,14 +68,14 @@ class GuiDecision(QtGui.QDialog, AD_Decision.Ui_Form):
                 self.remote.aversion, self.remote.income
             )
         )
-        self.label_txt_revenu_pile.setText("Revenu actuel Pile")
+        self.label_txt_revenu_pile.setText("Revenu Pile:")
         self.label_revenu_pile.setText(
             "{:.2f}".format(self.remote.income_pile))
-        self.label_txt_revenu_face.setText("Revenu actuel Face")
+        self.label_txt_revenu_face.setText("Revenu Face:")
         self.label_revenu_face.setText(
             "{:.2f}".format(self.remote.income_face))
         self.label_txt_portefeuille.setText(
-            "Valeur actuelle de votre portefeuille")
+            "Valeur de votre portefeuille:")
         self.label_portefeuille.setText("{:.2f}".format(self.remote.income))
 
         # ----------------------------------------------------------------------
