@@ -60,17 +60,17 @@ class GuiDecision(QtGui.QDialog, AD_Decision.Ui_Form):
         self.pushButton_history.clicked.connect(self.ecran_historique.show)
         self.label_timer.setText(get_formated_time(pms.MARKET_TIME))
         self.textEdit_explication.setText(
-            u"Votre revenu initial si pile est {} euros et votre revenu initial "
-            u"si face est {} euros. Votre paramètre alpha est {}. La valeur "
+            u"Votre revenu initial Pile est {} euros et votre revenu initial "
+            u"Face est {} euros. Votre constante est {}. La valeur "
             u"initiale de votre portefeuille est {} euros.".format(
                 self.remote.income_pile, self.remote.income_face,
                 self.remote.aversion, self.remote.income
             )
         )
-        self.label_txt_revenu_pile.setText("Revenu actuel si pile")
+        self.label_txt_revenu_pile.setText("Revenu actuel Pile")
         self.label_revenu_pile.setText(
             "{:.2f}".format(self.remote.income_pile))
-        self.label_txt_revenu_face.setText("Revenu actuel si face")
+        self.label_txt_revenu_face.setText("Revenu actuel Face")
         self.label_revenu_face.setText(
             "{:.2f}".format(self.remote.income_face))
         self.label_txt_portefeuille.setText(

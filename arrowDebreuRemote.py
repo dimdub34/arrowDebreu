@@ -58,11 +58,12 @@ class RemoteAD(IRemote):
         self.histo = []
         self.histo.append([
             u"Période",
-            u"nb achats\npile", u"nb ventes\npile", u"somme\nachats\npile",
-            u"somme\nventes\npile",
-            u"nb achats\nface", u"nb ventes\nface", u"somme\nachats\nface",
-            u"somme\nventes\nface",
-            u"revenu\npile", u"revenu\nface", u"revenu"
+            u"nb achats\nPile", u"nb ventes\nPile", u"somme\nachats\nPile",
+            u"somme\nventes\nPile",
+            u"nb achats\nFace", u"nb ventes\nFace", u"somme\nachats\nFace",
+            u"somme\nventes\nFace",
+            u"revenu\nfinal\nFile", u"revenu\nfinal\face",
+            u"Valeur\nfinale du\nportefeuille"
         ]
         )
 
@@ -135,9 +136,9 @@ class RemoteAD(IRemote):
             return 1
         else:
             defered = defer.Deferred()
-            txt_summary = u"Vous aviez un revenu initial de {} euros si pile " \
-                          u"et de {} euros si face. Votre paramètre alpha est " \
-                          u"de {}. La valeur initiale de votre " \
+            txt_summary = u"Vous aviez un revenu initial Pile de {} euros " \
+                          u"et Face de {} euros. Votre constante est " \
+                          u" {}. La valeur initiale de votre " \
                           u"portefeuille était de {} euros.".format(
                 period_content["AD_income_start_pile"],
                 period_content["AD_income_start_face"],
@@ -410,5 +411,6 @@ class RemoteAD(IRemote):
 
     def remote_set_payoffs(self, in_euros, period_tiree):
         self._payoff_text = u"C'est la période {} qui a été tirée au sort pour " \
-                            u"votre rémunération. A cette période vous avez " \
-                            u"gagné {} euros.".format(period_tiree, in_euros)
+                            u"votre rémunération. A cette période la valeur " \
+                            u"finale de votre portefeuille était " \
+                            u"de {} euros.".format(period_tiree, in_euros)
