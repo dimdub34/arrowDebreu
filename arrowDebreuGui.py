@@ -59,6 +59,7 @@ class GuiDecision(QtGui.QDialog, AD_Decision.Ui_Form):
                                               size=SIZE_HISTO)
         self.pushButton_history.clicked.connect(self.ecran_historique.show)
         self.label_timer.setText(get_formated_time(pms.MARKET_TIME))
+        self.textEdit_explication.setFixedWidth(SIZE_HISTO[0])
         self.textEdit_explication.setText(
             u"Votre revenu initial Pile est {} euros et votre revenu initial "
             u"Face est {} euros. Votre constante est {}. La valeur "
@@ -516,12 +517,15 @@ class GuiRecapitulatif(QtGui.QDialog):
         layout_period.addWidget(label_period, 0, QtCore.Qt.AlignLeft)
         layout_period.addWidget(button_history, 0, QtCore.Qt.AlignRight)
         layout.addLayout(layout_period)
+        layout.addSpacing(40)
+
 
         # explanation zone -----------------------------------------------------
         self.explication = QtGui.QTextEdit()
         self.explication.setFixedSize(SIZE_HISTO[0], 80)
         self.explication.setText(summary_text)
         layout.addWidget(self.explication, 0, QtCore.Qt.AlignHCenter)
+        layout.addSpacing(40)
 
         # # history table ------------------------------------------------------
         histo_recap = [self._remote.histo[0], self._remote.histo[-1]]
@@ -531,6 +535,7 @@ class GuiRecapitulatif(QtGui.QDialog):
         self.widtableview.ui.tableView.verticalHeader().setResizeMode(
             QtGui.QHeaderView.Stretch)
         layout.addWidget(self.widtableview)
+        layout.addSpacing(40)
 
         # transactions ---------------------------------------------------------
         try:
@@ -564,11 +569,14 @@ class GuiRecapitulatif(QtGui.QDialog):
         self._face_transactions_graph = GraphicalZone(
             transactions_face, prix_max, "*")
         transactions_layout.addWidget(self._face_transactions_graph, 1, 1)
+        layout.addSpacing(40)
 
         # button ---------------------------------------------------------------
         buttons = QtGui.QDialogButtonBox(QtGui.QDialogButtonBox.Ok)
         buttons.accepted.connect(self._accept)
-        layout.addWidget(buttons, 0, QtCore.Qt.AlignRight)
+        layout.addWidget(buttons, 0, QtCore.Qt.AlignCenter)
+
+        layout.addStretch(1)
 
         # # automatique
         if self._remote.le2mclt.automatique:
@@ -606,9 +614,9 @@ class DConfigure(QtGui.QDialog):
 
         # treatment
         self._combo_treatment = QtGui.QComboBox()
-        self._combo_treatment.addItems(
-            [v for k, v in sorted(pms.TREATMENTS_NAMES.items())])
-        self._combo_treatment.setCurrentIndex(pms.TREATMENT)
+        treatments = list(sorted(pms.TREATMENTS.keys()))
+        treatments.insert(0, "Choisir")
+        self._combo_treatment.addItems(treatments)
         form.addRow(QtGui.QLabel(u"Traitement"), self._combo_treatment)
 
         # nombre de périodes
@@ -656,7 +664,10 @@ class DConfigure(QtGui.QDialog):
         self.setFixedSize(self.size())
 
     def _accept(self):
-        pms.TREATMENT = self._combo_treatment.currentIndex()
+        if self._combo_treatment.currentIndex() == 0:
+            QtGui.QMessageBox.warning(self, "Attention", "Il faut choisir un traitement")
+            return
+        pms.TREATMENT = str(self._combo_treatment.currentText())
         pms.PARTIE_ESSAI = self._checkbox_essai.isChecked()
         pms.NOMBRE_PERIODES = self._spin_periods.value()
         pms.TAILLE_GROUPES = self._spin_groups.value()

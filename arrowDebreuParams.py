@@ -11,25 +11,44 @@ from datetime import time
 
 
 # variables --------------------------------------------------------------------
-BASELINE = 0
-RISKLOVER = 1
-BORCH = 2
-TREATMENTS_NAMES = {BASELINE: "Baseline"}
+# BASELINE = 0
+# RISKLOVER = 1
+# BORCH = 2
+# TREATMENTS_NAMES = {BASELINE: "Baseline"}
+
+TREATMENTS = {
+    "Baseline": {
+        "code": 0,
+        "endowment": [(10, 30), (10, 30), (10, 30), (30, 10), (30, 10), (30, 10)],
+        "aversion": [1, 1, 1, 1, 1, 1]
+    },
+    "Risklover": {
+        "code": 1,
+        "endowment": [(10, 30), (10, 30), (10, 30), (30, 10), (30, 10), (30, 10)],
+        "aversion": [-1, 1, 1, -1, 1, 1]
+    },
+    "Borch": {
+        "code": 2,
+        "endowment": [(30, 10), (30, 10), (30, 10), (30, 10), (30, 10), (30, 10)],
+        "aversion": [1, 1, 1, 2, 2, 2]
+    }
+}
+
 BUY = BUYER = 0
 SELL = SELLER = 1
 PILE = 0
 FACE = 1
 
 # parameters -------------------------------------------------------------------
-TREATMENT = BASELINE
+TREATMENT = "Baseline"
 TAUX_CONVERSION = 1
 NOMBRE_PERIODES = 1
 MARKET_TIME = time(0, 0, 30)  # hour, minute, second
 SUMMARY_TIME = time(0, 1, 30)  # timer on the summary screen
 TAILLE_GROUPES = 2
 # la place du joueur dans le groupe détermine sa dotation et son aversion
-ENDOWMENT = [(10, 30), (10, 30), (10, 30), (30, 10), (30, 10), (30, 10)]
-AVERSION = [1, 1, 1, 1, 1, 1]
+# ENDOWMENT = [(10, 30), (10, 30), (10, 30), (30, 10), (30, 10), (30, 10)]
+# AVERSION = [1, 1, 1, 1, 1, 1]
 
 MONNAIE = u"euro"
 PARTIE_ESSAI = False

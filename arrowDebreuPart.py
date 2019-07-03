@@ -47,18 +47,19 @@ class PartieAD(Partie, pb.Referenceable):
     @defer.inlineCallbacks
     def configure(self):
         logger.debug(u"{} Configure".format(self.joueur))
-        self.AD_treatment = pms.TREATMENT
+        self.AD_treatment = pms.TREATMENTS[pms.TREATMENT]["code"]
         self.AD_trial = pms.PARTIE_ESSAI
         # set the initial income depending on the position in the group
-        self.AD_endowment_pile, self.AD_endowment_face = pms.ENDOWMENT[
+        self.AD_endowment_pile, self.AD_endowment_face = \
+        pms.TREATMENTS[pms.TREATMENT]["endowment"][
             self.joueur.group.get_place_of_player(self)]
-        self.AD_aversion = pms.AVERSION[
+        self.AD_aversion = pms.TREATMENTS[pms.TREATMENT]["aversion"][
             self.joueur.group.get_place_of_player(self)]
         self.AD_income = yield (
             self.remote.callRemote("configure", get_module_attributes(pms),
                                    self, (self.AD_endowment_pile,
                                           self.AD_endowment_face),
-                                          self.AD_aversion))
+                                   self.AD_aversion))
         self.joueur.info(u"Ok")
 
     @defer.inlineCallbacks

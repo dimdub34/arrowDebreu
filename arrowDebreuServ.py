@@ -49,8 +49,7 @@ class Serveur(object):
         if screen_conf.exec_():
             self.le2mserv.gestionnaire_graphique.infoserv(None)
             self.le2mserv.gestionnaire_graphique.infoserv(
-                u"Traitement: {}".format(
-                    pms.TREATMENTS_NAMES.get(pms.TREATMENT)))
+                u"Traitement: {} (code {})".format(pms.TREATMENT, pms.TREATMENTS[pms.TREATMENT]["code"]))
             self.le2mserv.gestionnaire_graphique.infoserv(
                 u"Nombre de périodes: {}".format(pms.NOMBRE_PERIODES)
             )
