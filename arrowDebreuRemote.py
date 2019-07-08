@@ -91,7 +91,7 @@ class RemoteAD(IRemote):
                                                         self.income_face))
         return self.income
 
-    def remote_newperiod(self, period):
+    def remote_newperiod(self, period, income_pile, income_face):
         """
         Set the current period and delete the history
         :param period: the current period
@@ -100,6 +100,11 @@ class RemoteAD(IRemote):
         logger.info(u"{} Period {}".format(self._le2mclt.uid, period))
 
         self.currentperiod = period
+
+        self.income_pile = income_pile
+        self.income_face = income_face
+        self.income = self.get_current_income(self.income_pile,
+                                              self.income_face)
 
         # on vide les listes
         self.offers_pile_achat[:] = []

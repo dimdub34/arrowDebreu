@@ -51,8 +51,8 @@ class PartieAD(Partie, pb.Referenceable):
         self.AD_trial = pms.PARTIE_ESSAI
         # set the initial income depending on the position in the group
         self.AD_endowment_pile, self.AD_endowment_face = \
-        pms.TREATMENTS[pms.TREATMENT]["endowment"][
-            self.joueur.group.get_place_of_player(self)]
+            pms.TREATMENTS[pms.TREATMENT]["endowment"][
+                self.joueur.group.get_place_of_player(self)]
         self.AD_aversion = pms.TREATMENTS[pms.TREATMENT]["aversion"][
             self.joueur.group.get_place_of_player(self)]
         self.AD_income = yield (
@@ -74,7 +74,9 @@ class PartieAD(Partie, pb.Referenceable):
         self.currentperiod = RepetitionsAD(period)
         self.le2mserv.gestionnaire_base.ajouter(self.currentperiod)
         self.repetitions.append(self.currentperiod)
-        yield (self.remote.callRemote("newperiod", period))
+        yield (
+            self.remote.callRemote("newperiod", period, self.AD_endowment_pile,
+                                   self.AD_endowment_face))
         logger.info(u"{} Ready for period {}".format(self.joueur, period))
 
     @defer.inlineCallbacks
